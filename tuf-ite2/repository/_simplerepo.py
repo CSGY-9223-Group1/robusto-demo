@@ -64,7 +64,8 @@ class SimpleRepository(Repository):
 
     # Lab4: ITE-2 expiry period for root and targets = 365 days, others = 1 day
     # >>>
-    raise NotImplementedError("Implement this")
+    expiry_period = timedelta(days=1)
+    expiry_period_root_timestamp = timedelta(days=365)
     # <<<
 
     def _build_key_dir(self, base_url: str) -> str:
@@ -91,7 +92,9 @@ class SimpleRepository(Repository):
         # Lab4: Create signers as per ITE-2, root and targets share the same
         # key, snapshot and timestamp share the same key
         # >>>
-        raise NotImplementedError("Implement this")
+        root_signer = CryptoSigner.generate_ecdsa()
+        snapshot_signer = CryptoSigner.generate_ecdsa()
+        signers = {"root": root_signer, "targets": root_signer, "snapshot": snapshot_signer, "targets": snapshot_signer}
         # <<<
 
         # setup a basic repository, generate signing key per top-level role
@@ -108,7 +111,8 @@ class SimpleRepository(Repository):
         # packages-and-in-toto-metadata-signer. This role uses the same key as
         # timestamp and snapshot
         # >>>
-        raise NotImplementedError("Implement this")
+        delgatee_name = "packages-and-in-toto-metadata-signer"
+        timestamp_snapshot_key = signers["snapshot"] 
         # <<<
         
         # share the private key of packages-and-in-toto-metadata-signer
@@ -131,11 +135,12 @@ class SimpleRepository(Repository):
         # public keys required to sign the layout can be determined from the
         # layout custom metadata
         # >>>
-        raise NotImplementedError("Implement this")
-
         # for layout_file in layouts:
-            # read the layout metadata file and the custom_metadata for that
-            # layout
+        #     # read the layout metadata file and the custom_metadata for that
+        #     # layout
+        #     with open ("2cf178c1aa2f99b093243b032f299d8dd72abf5081bc608718b2003977a12bc7.layout.custom", "rb") as custom_metadata:
+        #     with open ("in-toto-metadata/root.layout", "rb") as layout:
+
 
             # add the layout as a target to the `targets` role. You also need to
             # send the custom metadata for the layout as part of the target
@@ -144,7 +149,6 @@ class SimpleRepository(Repository):
             # them as targets to the `targets` role
 
         # <<<
-
 
     @property
     def targets_infos(self) -> dict[str, MetaFile]:
