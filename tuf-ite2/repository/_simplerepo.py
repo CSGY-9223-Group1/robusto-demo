@@ -138,15 +138,21 @@ class SimpleRepository(Repository):
         # for layout_file in layouts:
         #     # read the layout metadata file and the custom_metadata for that
         #     # layout
-        #     with open ("2cf178c1aa2f99b093243b032f299d8dd72abf5081bc608718b2003977a12bc7.layout.custom", "rb") as custom_metadata:
-        #     with open ("in-toto-metadata/root.layout", "rb") as layout:
-
+        with open ("2cf178c1aa2f99b093243b032f299d8dd72abf5081bc608718b2003977a12bc7.layout.custom", "rb") as file:
+            custom_metadata = file.read()
+        with open ("in-toto-metadata/root.layout", "rb") as file:
+            layout = file.read()
 
             # add the layout as a target to the `targets` role. You also need to
             # send the custom metadata for the layout as part of the target
+        self.role_cache["targets"] = layout
+        self.role_cache["targets"].append(custom_metadata)
 
             # iterate over the pubkeys mentioned in the custom metadata and add
             # them as targets to the `targets` role
+        for item in self.role_cache["targets"][custom_metadata]:
+            for key in item:
+                self.role_cache["targets"].append(key)
 
         # <<<
 
