@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import contextlib
 import glob
+import json
 import os
 import tempfile
 from datetime import datetime, timedelta, timezone
@@ -36,6 +37,14 @@ def _in(days: float) -> datetime:
     return datetime.now(timezone.utc).replace(microsecond=0) + timedelta(
         days=days
     )
+
+# Helper function to reorder dictionaries with nested keys:
+def sort_nested_dict(d):
+    """Recursively sorts a nested dictionary by keys."""
+    if isinstance(d, dict):
+        return {k: sort_nested_dict(v) for k, v in sorted(d.items())}
+    else:
+        return d
 
 SPEC_VERSION = ".".join(SPECIFICATION_VERSION)
 
@@ -124,7 +133,7 @@ roles[delegatee_name] = Metadata[Targets](
     signed=Targets(
         version=1,
         spec_version=SPEC_VERSION,
-        expires=_in(7),
+        expires= _in(1),
         targets=targets,
     ),
     signatures={},
@@ -138,3 +147,100 @@ roles[delegatee_name].to_file(unversioned_delegatee_path, serializer=PRETTY)
 delegatee = Metadata.from_file(unversioned_delegatee_path)
 delegatee.sign(online_key)
 delegatee.to_file(unversioned_delegatee_path, serializer=PRETTY)
+
+# 3. Write the targets.json
+
+# Convert roles["root"] to dictionary object so it's easier to work with
+roles_dict = roles["root"].to_dict()
+# Get offline key id
+offline_key_id = roles_dict["signed"]["roles"]["root"]["keyids"][0]
+# Get offline key
+offline_public_key = roles_dict["signed"]["keys"][offline_key_id]["keyval"]["public"]
+
+# # Create skeleton for targets file minus delegations and targets
+roles["targets"] = Metadata[Targets](
+    signed=Targets(
+        spec_version=SPEC_VERSION,
+        expires=_in(1),
+        version=1,
+    ),
+)
+
+# Create target dict for remaining key/values 
+targets_dict = roles["targets"].to_dict()
+
+# Create delegations
+# First add the values for keys
+targets_dict["signed"]["delegations"] = {"keys": {offline_key_id: {}}}
+targets_dict["signed"]["delegations"]["keys"][offline_key_id] = {
+    "keytype": "ecdsa",
+    "keyval": {
+        "public": offline_public_key
+    },
+    "scheme": "ecdsa-sha2-nistp256"
+}
+# Next add the values for roles
+targets_dict["signed"]["delegations"]["roles"] = [
+    {
+        "keyids": [offline_key_id],
+        "name": delegatee_name,
+        "paths": ["in-toto-metadata/*/*.link", "packages/*"],
+        "terminating": True,
+        "threshold": 1
+    }
+]
+
+# Create and add targets in dictionary object
+
+targets_dict["signed"]["targets"] = {
+    "in-toto-metadata/root.layout": {
+        "custom": {
+            "in-toto": ["in-toto-pubkeys/alice.pub"]
+        },
+        # Not sure where these come from? Might need to be updated
+        "hashes": {
+            "sha256": "fd638c9e085b8aea9394beaa960bb27e10a6cd2d2303bd690369bf90fd8ac0de"
+        },
+        "length": 5340 
+    },
+    "in-toto-pubkeys/alice.pub": {
+        # Not sure where these come from? Might need to be updated
+        "hashes": {
+            "sha256": "06b6b81c16fce5a9a67494a01ab5a47fba9ce37f7432c88759f4ea98ea44328e"
+        },
+        "length": 625
+    } 
+}
+
+# Create targets.json and do first write to it
+unversioned_target_filename = "targets.json"
+unversioned_target_path = os.path.join(TMP_DIR, unversioned_target_filename)
+roles["targets"].to_file(unversioned_target_path, serializer=PRETTY)
+
+# Load the targets file
+targets = Metadata.from_file(unversioned_target_path)
+# Add the signatures to it
+targets.sign(offline_key)
+
+# Once signatures are added, write to a dict for easier handling
+sig_dict = targets.to_dict()
+
+# Remove the signed key/values from sig_dict since we'll get them from targets_dict
+del sig_dict["signed"]
+# Remove the signatures key/values from targets_dict since we'll get them from sig_dict
+del targets_dict["signatures"]
+
+# Merge contents from both dicts into targets_dict
+targets_dict.update(sig_dict)
+
+# Recursively sort keys in target_dict so they are in alphabetic order
+targets_dict_sorted = sort_nested_dict(targets_dict)
+
+# # Do final write of targets_dict to targets.json
+os.chdir(TMP_DIR)
+with open("targets.json", "w") as f:
+    json.dump(targets_dict_sorted, f, indent=1)
+
+# # 4. Write the snapshot.json
+
+# # 5. Write the timestamp.json
