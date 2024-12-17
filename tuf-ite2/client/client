@@ -101,7 +101,11 @@ def download(base_url: str, target: str) -> bool:
         
         # Lab4: recursively download files mentioned in the custom field
         # >>>
-        raise NotImplementedError("Implement this")
+        target_url = updater.target_base_url + "/in-toto-metadata"
+        target_url_sub = updater.target_base_url + "/in-toto-metadata/b4df3c864becf593a939414e5cfb85a7d9406b5f8bb645d248a35163c9afd3f9"
+        for file in os.listdir(target_url_sub):
+            download(target_url, file)
+        download(target_url, "root.layout")
         # <<<
 
         print(f"Target downloaded and available in {path}")
