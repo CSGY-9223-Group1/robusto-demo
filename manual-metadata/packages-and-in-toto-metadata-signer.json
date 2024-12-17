@@ -1,13 +1,13 @@
 {
  "signatures": [
   {
-   "keyid": "ac6f2c0b609182a2faff92fc318458335e32ffb552c7488c7b85b3788d474ddb",
-   "sig": "3045022100b51c7205cfab3f040bdc8c360f09a9da0d9b5589699b26ce03af66c6e7d52373022028898ff9701215a006a976f65bfd4410b6d1e9cc0cd6cc763e21b5d85be3b01f"
+   "keyid": "192686efbfdc8cfeac81a478122e87f5e3a199dc271a880f6f02b0520e9bfdef",
+   "sig": "3045022100ef5bba5d67a9e5aaa1131753a3e9734efd1886cae9c0108a7b99a1d64541cf15022071ede57ea7ac7e9be9749cb1be90d5ca3fe06009b92943953aec8f28d55ccd38"
   }
  ],
  "signed": {
   "_type": "targets",
-  "expires": "2024-12-17T04:21:27Z",
+  "expires": "2024-12-18T03:01:55Z",
   "spec_version": "1.0.31",
   "targets": {
    "in-toto-metadata/b4df3c864becf593a939414e5cfb85a7d9406b5f8bb645d248a35163c9afd3f9/clone.612aae08.link": {
@@ -22,6 +22,12 @@
     },
     "length": 1444
    },
+   "in-toto-metadata/b4df3c864becf593a939414e5cfb85a7d9406b5f8bb645d248a35163c9afd3f9/untar.link": {
+    "hashes": {
+     "sha256": "b3cb0d388fa57c84097bd07372085df25aada6f4d5ec0eeab1c34020df6500e2"
+    },
+    "length": 1251
+   },
    "in-toto-metadata/b4df3c864becf593a939414e5cfb85a7d9406b5f8bb645d248a35163c9afd3f9/update-version.612aae08.link": {
     "hashes": {
      "sha256": "ae28f26721d618b91a6517931f2285b6fbda76c4fdb18eabe6b53addb5dab886"
@@ -33,6 +39,7 @@
      "in-toto": [
       "in-toto-metadata/b4df3c864becf593a939414e5cfb85a7d9406b5f8bb645d248a35163c9afd3f9/clone.612aae08.link",
       "in-toto-metadata/b4df3c864becf593a939414e5cfb85a7d9406b5f8bb645d248a35163c9afd3f9/package.87f356aa.link",
+      "in-toto-metadata/b4df3c864becf593a939414e5cfb85a7d9406b5f8bb645d248a35163c9afd3f9/untar.link",
       "in-toto-metadata/b4df3c864becf593a939414e5cfb85a7d9406b5f8bb645d248a35163c9afd3f9/update-version.612aae08.link",
       "in-toto-metadata/root.layout"
      ]

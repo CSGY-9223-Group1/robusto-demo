@@ -236,11 +236,49 @@ targets_dict.update(sig_dict)
 # Recursively sort keys in target_dict so they are in alphabetic order
 targets_dict_sorted = sort_nested_dict(targets_dict)
 
-# # Do final write of targets_dict to targets.json
-os.chdir(TMP_DIR)
-with open("targets.json", "w") as f:
+# Do final write of targets_dict to targets.json
+with open(TMP_DIR + "/" + "targets.json", "w") as f:
     json.dump(targets_dict_sorted, f, indent=1)
 
-# # 4. Write the snapshot.json
+# 4. Write the snapshot.json
+roles["snapshot"] = Metadata(Snapshot(expires=_in(1)))
 
-# # 5. Write the timestamp.json
+# Create snapshot.json and do first write to it
+unversioned_snapshot_filename = "snapshot.json"
+unversioned_snapshot_path = os.path.join(TMP_DIR, unversioned_snapshot_filename)
+roles["snapshot"].to_file(unversioned_snapshot_path, serializer=PRETTY)
+
+snapshots = Metadata.from_file(unversioned_snapshot_path)
+snapshots.sign(online_key)
+
+# Convert snapshots to dictionary object so it's easier to work with
+snapshot_dict = snapshots.to_dict()
+
+# Update meta key
+snapshot_dict["signed"]["meta"] = {
+    "packages-and-in-toto-metadata-signer.json": {
+        "version": 1
+    },
+    "targets.json": {
+        "version": 1
+    }
+}
+
+# Recursively sort keys in target_dict so they are in alphabetic order
+snapshot_dict_sorted = sort_nested_dict(snapshot_dict)
+
+# Do final write of targets_dict to targets.json
+with open(TMP_DIR + "/" + "snapshot.json", "w") as f:
+    json.dump(snapshot_dict_sorted, f, indent=1)
+
+# 5. Write the timestamp.json
+roles["timestamp"] = Metadata(Timestamp(expires=_in(1)))
+
+# Create timestamp.json and do first write to it
+unversioned_timestamp_filename = "timestamp.json"
+unversioned_timestamp_path = os.path.join(TMP_DIR, unversioned_timestamp_filename)
+roles["timestamp"].to_file(unversioned_timestamp_path, serializer=PRETTY)
+
+timestamps = Metadata.from_file(unversioned_timestamp_path)
+timestamps.sign(online_key)
+timestamps.to_file(unversioned_timestamp_path, serializer=PRETTY)
