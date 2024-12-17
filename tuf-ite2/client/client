@@ -80,8 +80,8 @@ def download(base_url: str, target: str) -> bool:
     try:
         updater = Updater(
             metadata_dir=metadata_dir,
-            metadata_base_url=f"{base_url}/metadata/",
-            target_base_url=f"{base_url}/targets/",
+            metadata_base_url=f"{base_url}/manual-metadata/",
+            target_base_url=f"{base_url}/targets-ite2/",
             target_dir=DOWNLOAD_DIR,
         )
         updater.refresh()

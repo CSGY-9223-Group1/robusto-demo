@@ -1,0 +1,48 @@
+{
+ "signatures": [
+  {
+   "keyid": "d5dfefc205a680fc20d18676030034d429f6f34640d2f2ee94b0e6aa855e78d3",
+   "sig": "304402204779adad63226f8d5f82eb489b3f50ed51e6d9f116422e24b162b5e874e4b71d022027ae1f6e557b43fece629aa67f7a0345aa63a9e30876aba18a9c2dd3a37c5317"
+  }
+ ],
+ "signed": {
+  "_type": "targets",
+  "expires": "2024-12-18T03:36:00Z",
+  "spec_version": "1.0.31",
+  "targets": {
+   "in-toto-metadata/b4df3c864becf593a939414e5cfb85a7d9406b5f8bb645d248a35163c9afd3f9/clone.612aae08.link": {
+    "hashes": {
+     "sha256": "0f0f13773bf1cb70cd8f7a708e5aaf1f3e4135b27320c964b21a2177f0965b00"
+    },
+    "length": 1288
+   },
+   "in-toto-metadata/b4df3c864becf593a939414e5cfb85a7d9406b5f8bb645d248a35163c9afd3f9/package.87f356aa.link": {
+    "hashes": {
+     "sha256": "6de5e2b21066559e43be7d8cd837c449bd3fa71f5831742ed549dd9e2ccbe524"
+    },
+    "length": 1444
+   },
+   "in-toto-metadata/b4df3c864becf593a939414e5cfb85a7d9406b5f8bb645d248a35163c9afd3f9/update-version.612aae08.link": {
+    "hashes": {
+     "sha256": "ae28f26721d618b91a6517931f2285b6fbda76c4fdb18eabe6b53addb5dab886"
+    },
+    "length": 1292
+   },
+   "packages/demo-project.tar.gz": {
+    "custom": {
+     "in-toto": [
+      "in-toto-metadata/b4df3c864becf593a939414e5cfb85a7d9406b5f8bb645d248a35163c9afd3f9/clone.612aae08.link",
+      "in-toto-metadata/b4df3c864becf593a939414e5cfb85a7d9406b5f8bb645d248a35163c9afd3f9/package.87f356aa.link",
+      "in-toto-metadata/b4df3c864becf593a939414e5cfb85a7d9406b5f8bb645d248a35163c9afd3f9/update-version.612aae08.link",
+      "in-toto-metadata/root.layout"
+     ]
+    },
+    "hashes": {
+     "sha256": "0f0f13773bf1cb70cd8f7a708e5aaf1f3e4135b27320c964b21a2177f0965b00"
+    },
+    "length": 1288
+   }
+  },
+  "version": 1
+ }
+}
