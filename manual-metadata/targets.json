@@ -1,18 +1,18 @@
 {
  "signatures": [
   {
-   "keyid": "700bf279a2d2282d805ba520d48a44be6c878c44650c5ffa47fe674f80d31cdb",
-   "sig": "304502200f9cc0387ee10e32a33364f3d261da602cf726fed55acd1b4be7682de87363550221009887a908b3b4cc4816f430c8474e46899e8c1405dccc4cc3173330a1fa3ea36a"
+   "keyid": "faddd49081b4ad3f8f2aa78a8e98c35236887077bb816f1b71c5f064b9c09884",
+   "sig": "304502200a783f1970badccb1578dfd6b18b5483cfcc6ab0da48e20a670d308c29e9c1d6022100b8ade96ec658b8af633641839b487597b357fa5386fd53d10d1b45ecca30f705"
   }
  ],
  "signed": {
   "_type": "targets",
   "delegations": {
    "keys": {
-    "700bf279a2d2282d805ba520d48a44be6c878c44650c5ffa47fe674f80d31cdb": {
+    "faddd49081b4ad3f8f2aa78a8e98c35236887077bb816f1b71c5f064b9c09884": {
      "keytype": "ecdsa",
      "keyval": {
-      "public": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEnEtfbGbrk5lUHl014UX1ROiJm/Vq\nFOMT23rUYulkZrUS1jxg9Em57MX7vTPYrGhpHA8+qFEXlOg4QSi5GLy0sA==\n-----END PUBLIC KEY-----\n"
+      "public": "-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEo5S4r/RHJTQ1TstdvRh6KcLgam8u\n/X+bUiuH0XjCBSTmRHVr4el123/S1RjLnZcLmd7Yt7MJb+bfxfIjWBh/Vw==\n-----END PUBLIC KEY-----\n"
      },
      "scheme": "ecdsa-sha2-nistp256"
     }
@@ -20,7 +20,7 @@
    "roles": [
     {
      "keyids": [
-      "700bf279a2d2282d805ba520d48a44be6c878c44650c5ffa47fe674f80d31cdb"
+      "faddd49081b4ad3f8f2aa78a8e98c35236887077bb816f1b71c5f064b9c09884"
      ],
      "name": "packages-and-in-toto-metadata-signer",
      "paths": [
@@ -32,7 +32,7 @@
     }
    ]
   },
-  "expires": "2024-12-18T03:01:55Z",
+  "expires": "2024-12-18T03:36:00Z",
   "spec_version": "1.0.31",
   "targets": {
    "in-toto-metadata/root.layout": {
