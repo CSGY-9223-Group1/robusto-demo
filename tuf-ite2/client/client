@@ -80,8 +80,8 @@ def download(base_url: str, target: str) -> bool:
     try:
         updater = Updater(
             metadata_dir=metadata_dir,
-            metadata_base_url=f"{base_url}/manual-metadata/",
-            target_base_url=f"{base_url}/targets-ite2/",
+            metadata_base_url=f"{base_url}/metadata/",
+            target_base_url=f"{base_url}/targets/",
             target_dir=DOWNLOAD_DIR,
         )
         updater.refresh()
@@ -101,11 +101,13 @@ def download(base_url: str, target: str) -> bool:
         
         # Lab4: recursively download files mentioned in the custom field
         # >>>
-        target_url = updater.target_base_url + "/in-toto-metadata"
-        target_url_sub = updater.target_base_url + "/in-toto-metadata/b4df3c864becf593a939414e5cfb85a7d9406b5f8bb645d248a35163c9afd3f9"
-        for file in os.listdir(target_url_sub):
-            download(target_url, file)
-        download(target_url, "root.layout")
+        for filename in os.listdir(updater.metadata_base_url):
+            download(filename, updater.metadata_base_url)
+        # target_url = updater.target_base_url + "/in-toto-metadata"
+        # target_url_sub = updater.target_base_url + "/in-toto-metadata/b4df3c864becf593a939414e5cfb85a7d9406b5f8bb645d248a35163c9afd3f9"
+        # for file in os.listdir(target_url_sub):
+        #     download(target_url, file)
+        # download(target_url, "root.la")
         # <<<
 
         print(f"Target downloaded and available in {path}")
