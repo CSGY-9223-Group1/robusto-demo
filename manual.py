@@ -85,7 +85,7 @@ roles["root"].signed.consistent_snapshot = False
 
 # Writing the root
 # filename = f"{roles[name].signed.version}.{roles[name].signed.type}.json"
-unversioned_root_filename = "root.json"
+unversioned_root_filename = "1.root.json"
 unversioned_root_path = os.path.join(TMP_DIR, unversioned_root_filename)
 roles["root"].to_file(unversioned_root_path, serializer=PRETTY)
 
